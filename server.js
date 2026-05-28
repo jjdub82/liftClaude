@@ -12,7 +12,6 @@ app.use(express.json({ limit: "2mb" }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // ── ROUTES ────────────────────────────────────────────────────────────────────
-app.use("/api/auth",       require("./routes/auth"));
 app.use("/api/profile",    require("./routes/profile"));
 app.use("/api/workouts",   require("./routes/workouts"));
 app.use("/api/meso",       require("./routes/mesocycles"));

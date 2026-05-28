@@ -82,4 +82,11 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_meso_user ON mesocycles(user_id);
 `);
 
+// ── SEED DEFAULT USER ──────────────────────────────────────────────────────────
+const existing = db.prepare("SELECT id FROM users WHERE id = 1").get();
+if (!existing) {
+  db.prepare("INSERT INTO users (id, email, password_hash, name) VALUES (1, 'default@liftlog.app', 'none', 'Me')").run();
+  db.prepare("INSERT INTO profiles (user_id) VALUES (1)").run();
+}
+
 module.exports = db;
