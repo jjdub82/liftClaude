@@ -271,7 +271,6 @@ let mesoConfig = {goal:"Fat Loss",split:"Push/Pull/Legs",weeks:5,daysPerWeek:3};
 // ── API HELPERS ───────────────────────────────────────────────────────────────
 async function api(method, path, body) {
   const opts = {method, headers:{"Content-Type":"application/json"}};
-  if (token) opts.headers["Authorization"] = "Bearer " + token;
   if (body) opts.body = JSON.stringify(body);
   const res = await fetch(API + path, opts);
   const data = await res.json();
@@ -1083,7 +1082,6 @@ function renderProfile() {
   const sample = estimateCalories(60,7);
   pg.innerHTML=`
     <div style="font-size:26px;letter-spacing:3px">MY PROFILE</div>
-    <div style="font-family:'DM Sans';font-size:13px;color:var(--muted)">Signed in as ${currentUser?.email||""}</div>
     <div class="card" style="padding:20px">
       <div style="margin-bottom:16px">
         <div style="font-family:'DM Mono';font-size:11px;color:var(--muted);margin-bottom:6px;letter-spacing:1px">SEX</div>
@@ -1099,7 +1097,7 @@ function renderProfile() {
         </div>`).join("")}
       ${sample?`<div style="margin-top:8px;padding:12px 14px;background:#0e0e16;border-radius:8px;border-left:3px solid var(--green)"><div style="font-family:'DM Sans';font-size:12px;color:var(--muted);margin-bottom:4px">SAMPLE ESTIMATE</div><div style="font-family:'DM Mono';font-size:22px;color:var(--green)">${sample} kcal</div><div style="font-family:'DM Sans';font-size:11px;color:#444;margin-top:2px">for a 60-min session at RPE 7</div></div>`:""}
     </div>
-    <button onclick="logout()" style="padding:12px;background:var(--sub);color:var(--red);border:1px solid #e05b5b44;font-size:14px;width:100%">SIGN OUT</button>`;
+  `;
 }
 
 async function setProfileField(field, val) {
@@ -1109,10 +1107,9 @@ async function setProfileField(field, val) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
-checkAuth();
-
-// Enter key on auth
-document.getElementById("auth-password").addEventListener("keydown", e=>{ if(e.key==="Enter") authSubmit(); });
+document.getElementById("auth-screen").style.display = "none";
+document.getElementById("nav").classList.remove("hidden");
+loadAllData().then(() => showPage("splits"));
 </script>
 </body>
 </html>
